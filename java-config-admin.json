@@ -1,0 +1,8 @@
+{
+  "modelPackage" : "org.wso2.carbon.apimgt.samples.utils.admin.rest.client.model",
+  "apiPackage"   : "org.wso2.carbon.apimgt.samples.utils.admin.rest.client.api",
+  "invokerPackage" : "org.wso2.carbon.apimgt.samples.utils.admin.rest.client",
+  "groupId" : "org.wso2.carbon.apimgt.samples",
+  "artifactId"  : "org.wso2.carbon.apimgt.clients.admin.api",
+  "dateLibrary" : "java7"
+}
