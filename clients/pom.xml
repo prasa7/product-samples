@@ -8,7 +8,7 @@
         <version>1.0.0</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
-
+    <name>Clients for samples</name>
     <artifactId>org.wso2.carbon.apimgt.clients</artifactId>
     <packaging>pom</packaging>
 
