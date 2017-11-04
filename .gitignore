@@ -1,0 +1,8 @@
+target/*
+sample-utils/target/*
+sample1/target/*
+clients/target/*
+*.ipr
+*.iml
+*.iws
+.idea

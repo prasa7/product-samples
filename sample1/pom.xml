@@ -11,4 +11,12 @@
     <artifactId>sample1</artifactId>
     <name>Sample One</name>
 
+    <dependencies>
+        <dependency>
+            <groupId>org.wso2.carbon.apimgt</groupId>
+            <artifactId>org.wso2.carbon.apimgt.samples.utils</artifactId>
+            <version>1.0.0</version>
+        </dependency>
+    </dependencies>
+
 </project>

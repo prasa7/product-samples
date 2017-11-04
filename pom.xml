@@ -12,12 +12,26 @@
         <url>https://github.com/swagger-api/swagger-codegen</url>
     </scm>
     <modules>
-        <module>sample1</module>
         <module>clients</module>
+        <module>sample-utils</module>
+        <module>sample1</module>
     </modules>
     <prerequisites>
         <maven>2.2.0</maven>
     </prerequisites>
+
+    <repositories>
+        <repository>
+            <id>wso2-nexus</id>
+            <name>WSO2 internal Repository</name>
+            <url>http://maven.wso2.org/nexus/content/groups/wso2-public/</url>
+            <releases>
+                <enabled>true</enabled>
+                <updatePolicy>daily</updatePolicy>
+                <checksumPolicy>ignore</checksumPolicy>
+            </releases>
+        </repository>
+    </repositories>
 
     <build>
         <plugins>
@@ -103,8 +117,8 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>2.3.2</version>
                 <configuration>
-                    <source>1.7</source>
-                    <target>1.7</target>
+                    <source>1.8</source>
+                    <target>1.8</target>
                 </configuration>
             </plugin>
         </plugins>
@@ -173,6 +187,11 @@
             <artifactId>gson</artifactId>
             <version>2.7</version>
         </dependency>
+        <dependency>
+            <groupId>log4j</groupId>
+            <artifactId>log4j</artifactId>
+            <version>${log4j.version}</version>
+        </dependency>
     </dependencies>
     <properties>
         <swagger-annotations-version>1.5.0</swagger-annotations-version>
@@ -181,5 +200,6 @@
         <jodatime-version>2.3</jodatime-version>
         <maven-plugin-version>1.0.0</maven-plugin-version>
         <junit-version>4.8.1</junit-version>
+        <log4j.version>1.2.13</log4j.version>
     </properties>
 </project>
