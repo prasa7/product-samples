@@ -51,7 +51,8 @@ public class AuthenticateStub {
     }
 
     public static Stub authenticateStub(Stub stub, String sessionCookie, String backendURL) {
-        long soTimeout = 5 * 60 * 1000; // Three minutes
+        // Three minutes
+        long soTimeout = 5 * 60 * 1000;
 
         ServiceClient client = stub._getServiceClient();
         Options option = client.getOptions();

@@ -62,7 +62,7 @@ public class TenantUtils {
 
             if (!tenantInfoBeanGet.getActive() && tenantInfoBeanGet.getTenantId() != 0) {
                 tenantMgtAdminServiceStub.activateTenant(domainName);
-                log.info("Tenant domain " + domainName + " Activated successfully");
+                log.info("Tenant domain " + domainName + " activated successfully");
 
             } else if (!tenantInfoBeanGet.getActive()) {
                 tenantMgtAdminServiceStub.addTenant(tenantInfoBean);
