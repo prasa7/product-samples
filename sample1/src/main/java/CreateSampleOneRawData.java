@@ -1,20 +1,24 @@
 import org.wso2.carbon.apimgt.samples.utils.publisher.rest.client.ApiException;
 
+import java.util.ArrayList;
+
 public class CreateSampleOneRawData {
 
     private static final String serviceEndpoint = "https://localhost:9443/services/";
 
     public static void main(String[] args) throws ApiException {
         createTenants();
-        createAPI();
+        createAPIs();
     }
 
-    private static void createAPI() throws ApiException {
+    private static void createAPIs() throws ApiException {
 
-        String apiName = "test";
-        String apiVersion = "1.1.1";
-        String apiContext = "/api";
-        //        SampleUtils.createApi(apiName, apiVersion, apiContext);
+        SampleUtils.createApi("Salary Details API", "1.0.0", "/salaries", new ArrayList<String>(),new ArrayList<String>());
+        SampleUtils.createApi("Mobile Stock API", "1.0.0", "/stocks", new ArrayList<String>(),new ArrayList<String>());
+        SampleUtils.createApi("Maintenance Task API ", "1.0.0", "/tasks", new ArrayList<String>(),new ArrayList<String>());
+        SampleUtils.createApi("Employee Info API", "1.0.0", "/empInfo", new ArrayList<String>(),new ArrayList<String>());
+        SampleUtils.createApi("Phone Prices API", "1.0.0", "/mobilePrices", new ArrayList<String>(),new ArrayList<String>());
+
     }
 
     private static void createTenants() {
