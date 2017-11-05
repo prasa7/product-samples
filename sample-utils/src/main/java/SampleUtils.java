@@ -11,7 +11,7 @@ import java.util.List;
 public class SampleUtils {
 
     public static String createApi(String apiName, String version, String context, ArrayList<String> visibleRoles,
-            ArrayList<String> visibleTenants) throws ApiException {
+            ArrayList<String> visibleTenants, API.VisibilityEnum apiVisibility) throws ApiException {
 
         APICollectionApi api = new APICollectionApi();
         API body = new API();
@@ -27,7 +27,7 @@ public class SampleUtils {
         body.isDefaultVersion(false);
         body.setCacheTimeout(100);
         body.setGatewayEnvironments("Production and Sandbox");
-        body.setVisibility(API.VisibilityEnum.PUBLIC);
+        body.setVisibility(apiVisibility);
         body.setTags(new ArrayList<String>());
         body.setVisibleRoles(visibleRoles);
         body.setVisibleTenants(visibleTenants);

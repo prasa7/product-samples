@@ -1,4 +1,5 @@
 import org.wso2.carbon.apimgt.samples.utils.publisher.rest.client.ApiException;
+import org.wso2.carbon.apimgt.samples.utils.publisher.rest.client.model.API;
 
 import java.util.ArrayList;
 
@@ -13,11 +14,19 @@ public class CreateSampleOneRawData {
 
     private static void createAPIs() throws ApiException {
 
-        SampleUtils.createApi("Salary Details API", "1.0.0", "/salaries", new ArrayList<String>(),new ArrayList<String>());
-        SampleUtils.createApi("Mobile Stock API", "1.0.0", "/stocks", new ArrayList<String>(),new ArrayList<String>());
-        SampleUtils.createApi("Maintenance Task API ", "1.0.0", "/tasks", new ArrayList<String>(),new ArrayList<String>());
-        SampleUtils.createApi("Employee Info API", "1.0.0", "/empInfo", new ArrayList<String>(),new ArrayList<String>());
-        SampleUtils.createApi("Phone Prices API", "1.0.0", "/mobilePrices", new ArrayList<String>(),new ArrayList<String>());
+        SampleUtils
+                .createApi("Salary Details API", "1.0.0", "/salaries", new ArrayList<String>(), new ArrayList<String>(),
+                        API.VisibilityEnum.PRIVATE);
+        SampleUtils.createApi("Mobile Stock API", "1.0.0", "/stocks", new ArrayList<String>(), new ArrayList<String>(),
+                API.VisibilityEnum.PRIVATE);
+        SampleUtils
+                .createApi("Maintenance Task API ", "1.0.0", "/tasks", new ArrayList<String>(), new ArrayList<String>(),
+                        API.VisibilityEnum.PRIVATE);
+        SampleUtils
+                .createApi("Employee Info API", "1.0.0", "/empInfo", new ArrayList<String>(), new ArrayList<String>(),
+                        API.VisibilityEnum.RESTRICTED);
+        SampleUtils.createApi("Phone Prices API", "1.0.0", "/mobilePrices", new ArrayList<String>(),
+                new ArrayList<String>(), API.VisibilityEnum.PUBLIC);
 
     }
 
