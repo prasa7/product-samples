@@ -1,11 +1,11 @@
 /*
- * Copyright (c) 2010, WSO2 Inc. (http://www.wso2.org) All Rights Reserved.
+ * Copyright (c) 2017, WSO2 Inc. (http://wso2.com) All Rights Reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -23,7 +23,7 @@ import org.apache.commons.logging.LogFactory;
 import org.wso2.carbon.utils.CarbonUtils;
 
 /**
- * This class authenticate stubs with valid session cookie
+ * This class authenticate stubs with valid session cookie.
  */
 public class AuthenticateStub {
 
@@ -36,13 +36,15 @@ public class AuthenticateStub {
      * @param sessionCookie session cookie
      */
     public static void authenticateStub(String sessionCookie, Stub stub) {
-        long soTimeout = 5 * 60 * 1000; // Three minutes
+        // Three minutes
+        long soTimeout = 5 * 60 * 1000;
 
         ServiceClient client = stub._getServiceClient();
         Options option = client.getOptions();
         option.setManageSession(true);
         option.setTimeOutInMilliSeconds(soTimeout);
         option.setProperty(org.apache.axis2.transport.http.HTTPConstants.COOKIE_STRING, sessionCookie);
+
         if (log.isDebugEnabled()) {
             log.debug("AuthenticateStub : Stub created with session " + sessionCookie);
         }
