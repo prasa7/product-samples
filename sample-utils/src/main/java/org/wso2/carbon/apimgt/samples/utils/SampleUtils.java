@@ -98,7 +98,7 @@ public class SampleUtils {
     private static String getApiDefinition() throws IOException {
         if (apiDefinition == null) {
             apiDefinition = IOUtils.toString(
-                    SampleUtils.class.getResourceAsStream(Constants.API_DEFINITION_JSON_FILE),
+                    SampleUtils.class.getClassLoader().getResourceAsStream(Constants.API_DEFINITION_JSON_FILE),
                     StandardCharsets.UTF_8.name());
         }
 

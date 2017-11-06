@@ -19,6 +19,7 @@ import org.wso2.carbon.apimgt.samples.utils.TenantUtils;
 import org.wso2.carbon.apimgt.samples.utils.publisher.rest.client.ApiException;
 import org.wso2.carbon.apimgt.samples.utils.publisher.rest.client.model.API;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 /**
@@ -30,7 +31,7 @@ public class CreateSampleOneRawData {
     private static final String port = "9443";
     private static final String serviceEndpoint = "https://" + hostname + ":" + port + "/services/";
 
-    public static void main(String[] args) throws ApiException {
+    public static void main(String[] args) throws ApiException, IOException {
         createTenants();
         createAPIs();
     }
@@ -39,22 +40,32 @@ public class CreateSampleOneRawData {
      *
      * @throws ApiException
      */
-    private static void createAPIs() throws ApiException {
+    private static void createAPIs() throws ApiException, IOException {
 
-        SampleUtils.createApi("Salary Details API", "1.0.0", "/salaries", new ArrayList<>(),
-                new ArrayList<>(), API.VisibilityEnum.PRIVATE, hostname, port);
+        ArrayList<String> apiOneVisibleTenants = new ArrayList<String>();
+        apiOneVisibleTenants.add("dpt.finance.com");
+        SampleUtils.createApi("Salary Details API", "1.0.0", "/salaries", new ArrayList<String>(), apiOneVisibleTenants,
+                API.VisibilityEnum.PRIVATE, hostname, port);
 
-        SampleUtils.createApi("Mobile Stock API", "1.0.0", "/stocks", new ArrayList<>(),
-                new ArrayList<>(), API.VisibilityEnum.PRIVATE, hostname, port);
+        ArrayList<String> apiTwoVisibleTenants = new ArrayList<String>();
+        apiOneVisibleTenants.add("dpt.core.com");
+        SampleUtils.createApi("Mobile Stock API", "1.0.0", "/stocks", new ArrayList<String>(), apiTwoVisibleTenants,
+                API.VisibilityEnum.PRIVATE, hostname, port);
 
-        SampleUtils.createApi("Maintenance Task API ", "1.0.0", "/tasks", new ArrayList<>(),
-                new ArrayList<>(), API.VisibilityEnum.PRIVATE, hostname, port);
+        ArrayList<String> apiThreeVisibleTenants = new ArrayList<String>();
+        apiOneVisibleTenants.add("dpt.opt.com");
+        SampleUtils
+                .createApi("Maintenance Task API ", "1.0.0", "/tasks", new ArrayList<String>(), apiThreeVisibleTenants,
+                        API.VisibilityEnum.PRIVATE, hostname, port);
 
-        SampleUtils.createApi("Employee Info API", "1.0.0", "/empInfo", new ArrayList<>(),
-                new ArrayList<>(), API.VisibilityEnum.RESTRICTED, hostname, port);
+        ArrayList<String> apiFourVisibleTenants = new ArrayList<String>();
+        apiOneVisibleTenants.add("dpt.finance.com");
+        apiOneVisibleTenants.add("dpt.core.com");
+        SampleUtils.createApi("Employee Info API", "1.0.0", "/empInfo", new ArrayList<String>(), apiFourVisibleTenants,
+                API.VisibilityEnum.PUBLIC, hostname, port);
 
-        SampleUtils.createApi("Phone Prices API", "1.0.0", "/mobilePrices", new ArrayList<>(),
-                new ArrayList<>(), API.VisibilityEnum.PUBLIC, hostname, port);
+        SampleUtils.createApi("Phone Prices API", "1.0.0", "/mobilePrices", new ArrayList<String>(),
+                new ArrayList<String>(), API.VisibilityEnum.PUBLIC, hostname, port);
 
     }
 

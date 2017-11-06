@@ -48,7 +48,7 @@ public class TenantUtils {
             String firstName, String lastName, String backendUrl) {
 
         System.setProperty(Constants.JAVAX_NET_SSL_TRUST_STORE,
-                TenantUtils.class.getResource(Constants.WSO2CARBON_JKS).getPath());
+                TenantUtils.class.getClassLoader().getResource(Constants.WSO2CARBON_JKS).getPath());
 
         System.setProperty(Constants.JAVAX_NET_SSL_TRUST_STORE_PASSWORD, Constants.WSO_2_CARBON);
         System.setProperty(Constants.JAVAX_NET_SSL_TRUST_STORE_TYPE, Constants.JKS);
