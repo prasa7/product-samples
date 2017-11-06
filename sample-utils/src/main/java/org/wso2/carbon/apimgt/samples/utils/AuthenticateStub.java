@@ -14,6 +14,8 @@
  * limitations under the License.
  */
 
+package org.wso2.carbon.apimgt.samples.utils;
+
 import org.apache.axis2.addressing.EndpointReference;
 import org.apache.axis2.client.Options;
 import org.apache.axis2.client.ServiceClient;

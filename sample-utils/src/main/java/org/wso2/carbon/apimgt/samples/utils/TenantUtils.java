@@ -14,6 +14,8 @@
  * limitations under the License.
  */
 
+package org.wso2.carbon.apimgt.samples.utils;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.wso2.carbon.tenant.mgt.stub.TenantMgtAdminServiceExceptionException;
@@ -25,22 +27,37 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
+/**
+ *
+ */
 public class TenantUtils {
 
     private static final Log log = LogFactory.getLog(TenantUtils.class);
 
+    /**
+     *
+     * @param username
+     * @param password
+     * @param domainName
+     * @param firstName
+     * @param lastName
+     * @param backendUrl
+     * @return
+     */
     public static boolean createTenant(String username, String password, String domainName,
             String firstName, String lastName, String backendUrl) {
 
-        System.setProperty("javax.net.ssl.trustStore", TenantUtils.class.getResource("wso2carbon.jks").getPath());
-        System.setProperty("javax.net.ssl.trustStorePassword", "wso2carbon");
-        System.setProperty("javax.net.ssl.trustStoreType", "JKS");
+        System.setProperty(Constants.JAVAX_NET_SSL_TRUST_STORE,
+                TenantUtils.class.getResource(Constants.WSO2CARBON_JKS).getPath());
+
+        System.setProperty(Constants.JAVAX_NET_SSL_TRUST_STORE_PASSWORD, Constants.WSO_2_CARBON);
+        System.setProperty(Constants.JAVAX_NET_SSL_TRUST_STORE_TYPE, Constants.JKS);
 
         boolean isSuccess = false;
         try {
-            String endPoint = backendUrl + "TenantMgtAdminService";
+            String endPoint = backendUrl + Constants.TENANT_MGT_ADMIN_SERVICE;
             TenantMgtAdminServiceStub tenantMgtAdminServiceStub = new TenantMgtAdminServiceStub(endPoint);
-            AuthenticateStub.authenticateStub("admin", "admin", tenantMgtAdminServiceStub);
+            AuthenticateStub.authenticateStub(Constants.ADMIN_USERNAME, Constants.ADMIN_PASSWORD, tenantMgtAdminServiceStub);
 
             Date date = new Date();
             Calendar calendar = new GregorianCalendar();
@@ -48,7 +65,7 @@ public class TenantUtils {
 
             TenantInfoBean tenantInfoBean = new TenantInfoBean();
             tenantInfoBean.setActive(true);
-            tenantInfoBean.setEmail(username + "@" + domainName);
+            tenantInfoBean.setEmail(username + Constants.CHAR_AT + domainName);
             tenantInfoBean.setAdminPassword(password);
             tenantInfoBean.setAdmin(username);
             tenantInfoBean.setTenantDomain(domainName);
@@ -56,7 +73,7 @@ public class TenantUtils {
             tenantInfoBean.setFirstname(firstName);
             tenantInfoBean.setLastname(lastName);
             tenantInfoBean.setSuccessKey("true");
-            tenantInfoBean.setUsagePlan("demo");
+            tenantInfoBean.setUsagePlan(Constants.USAGE_PLAN_DEMO);
             TenantInfoBean tenantInfoBeanGet;
             tenantInfoBeanGet = tenantMgtAdminServiceStub.getTenant(domainName);
 
@@ -81,5 +98,4 @@ public class TenantUtils {
 
         return isSuccess;
     }
-
 }

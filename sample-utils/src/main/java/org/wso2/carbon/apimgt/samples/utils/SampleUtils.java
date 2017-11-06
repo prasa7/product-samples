@@ -14,6 +14,8 @@
  * limitations under the License.
  */
 
+package org.wso2.carbon.apimgt.samples.utils;
+
 import org.apache.commons.io.IOUtils;
 import org.wso2.carbon.apimgt.samples.utils.publisher.rest.client.ApiException;
 import org.wso2.carbon.apimgt.samples.utils.publisher.rest.client.api.APICollectionApi;
@@ -26,12 +28,28 @@ import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ *
+ */
 public class SampleUtils {
 
     private static String apiDefinition = null;
 
+    /**
+     *
+     * @param apiName
+     * @param version
+     * @param context
+     * @param visibleRoles
+     * @param visibleTenants
+     * @param apiVisibility
+     * @param hostname
+     * @param port
+     * @return
+     * @throws ApiException
+     */
     public static String createApi(String apiName, String version, String context, ArrayList<String> visibleRoles,
-            ArrayList<String> visibleTenants, API.VisibilityEnum apiVisibility) throws ApiException, IOException {
+            ArrayList<String> visibleTenants, API.VisibilityEnum apiVisibility, String hostname, String port) throws ApiException {
 
         APICollectionApi api = new APICollectionApi();
         API body = new API();
@@ -39,14 +57,14 @@ public class SampleUtils {
         body.setName(apiName);
         body.setContext(context);
         body.setVersion(version);
-        body.setDescription("This is the api description");
-        body.setProvider("admin");
+        body.setDescription(Constants.API_DESCRIPTION);
+        body.setProvider(Constants.PROVIDER_ADMIN);
         body.setTransport(new ArrayList<String>() {{
-            add("http");
+            add(Constants.PROTOCOL_HTTP);
         }});
         body.isDefaultVersion(false);
         body.setCacheTimeout(100);
-        body.setGatewayEnvironments("Production and Sandbox");
+        body.setGatewayEnvironments(Constants.GATEWAY_ENVIRONMENTS);
         body.setVisibility(apiVisibility);
         body.setTags(new ArrayList<>());
         body.setVisibleRoles(visibleRoles);
@@ -54,19 +72,34 @@ public class SampleUtils {
         body.setSequences(new ArrayList<>());
         body.setBusinessInformation(new APIBusinessInformation());
         body.setCorsConfiguration(new APICorsConfiguration());
-        String endpointConfig = "{\"production_endpoints\":{\"url\":\"https://localhost:9443/am/sample/pizzashack/v1/api/\",\"config\":null},\"sandbox_endpoints\":{\"url\":\"https://localhost:9443/am/sample/pizzashack/v1/api/\",\"config\":null},\"endpoint_type\":\"http\"}";
+        String endpointConfig = "{\"production_endpoints\":{\"url\":\"https://" + hostname + ":" + port +
+                "/am/sample/pizzashack/v1/api/\",\"config\":null},\"sandbox_endpoints\":" +
+                "{\"url\":\"https://localhost:9443/am/sample/pizzashack/v1/api/\",\"config\":null}," +
+                "\"endpoint_type\":\"http\"}";
+
         body.setEndpointConfig(endpointConfig);
-        body.setApiDefinition(getApiDefinition());
+        try {
+            body.setApiDefinition(getApiDefinition());
+        } catch (IOException e) {
+            throw  new ApiException("Could not read API definition file");
+        }
         List<String> tierList = new ArrayList<>();
-        tierList.add("Unlimited");
+        tierList.add(Constants.TIERS_UNLIMITED);
         body.setTiers(tierList);
-        API response = api.apisPost(body, "application/json");
+        API response = api.apisPost(body, Constants.APPLICATION_JSON);
         return response.getId();
     }
 
+    /**
+     *
+     * @return
+     * @throws IOException
+     */
     private static String getApiDefinition() throws IOException {
         if (apiDefinition == null) {
-            apiDefinition = IOUtils.toString(SampleUtils.class.getResourceAsStream("api-definition.json"), StandardCharsets.UTF_8.name());
+            apiDefinition = IOUtils.toString(
+                    SampleUtils.class.getResourceAsStream(Constants.API_DEFINITION_JSON_FILE),
+                    StandardCharsets.UTF_8.name());
         }
 
         return apiDefinition;
