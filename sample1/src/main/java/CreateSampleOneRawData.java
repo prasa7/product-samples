@@ -44,27 +44,27 @@ public class CreateSampleOneRawData {
 
         ArrayList<String> apiOneVisibleTenants = new ArrayList<String>();
         apiOneVisibleTenants.add("dpt.finance.com");
-        SampleUtils.createApi("Salary Details API", "1.0.0", "/salaries", new ArrayList<String>(), apiOneVisibleTenants,
-                API.VisibilityEnum.PRIVATE, hostname, port);
+        SampleUtils.createApi("Salary_details_API", "1.0.0", "/salaries", new ArrayList<String>(), apiOneVisibleTenants,
+                API.VisibilityEnum.CONTROLLED, hostname, port);
 
         ArrayList<String> apiTwoVisibleTenants = new ArrayList<String>();
         apiOneVisibleTenants.add("dpt.core.com");
-        SampleUtils.createApi("Mobile Stock API", "1.0.0", "/stocks", new ArrayList<String>(), apiTwoVisibleTenants,
-                API.VisibilityEnum.PRIVATE, hostname, port);
+        SampleUtils.createApi("Mobile_stock_API", "1.0.0", "/stocks", new ArrayList<String>(), apiTwoVisibleTenants,
+                API.VisibilityEnum.CONTROLLED, hostname, port);
 
         ArrayList<String> apiThreeVisibleTenants = new ArrayList<String>();
         apiOneVisibleTenants.add("dpt.opt.com");
         SampleUtils
-                .createApi("Maintenance Task API ", "1.0.0", "/tasks", new ArrayList<String>(), apiThreeVisibleTenants,
-                        API.VisibilityEnum.PRIVATE, hostname, port);
+                .createApi("Maintenance_ask_API ", "1.0.0", "/tasks", new ArrayList<String>(), apiThreeVisibleTenants,
+                        API.VisibilityEnum.CONTROLLED, hostname, port);
 
         ArrayList<String> apiFourVisibleTenants = new ArrayList<String>();
         apiOneVisibleTenants.add("dpt.finance.com");
         apiOneVisibleTenants.add("dpt.core.com");
-        SampleUtils.createApi("Employee Info API", "1.0.0", "/empInfo", new ArrayList<String>(), apiFourVisibleTenants,
-                API.VisibilityEnum.PUBLIC, hostname, port);
+        SampleUtils.createApi("Employee_info_API", "1.0.0", "/empInfo", new ArrayList<String>(), apiFourVisibleTenants,
+                API.VisibilityEnum.CONTROLLED, hostname, port);
 
-        SampleUtils.createApi("Phone Prices API", "1.0.0", "/mobilePrices", new ArrayList<String>(),
+        SampleUtils.createApi("Phone_prices_API", "1.0.0", "/mobilePrices", new ArrayList<String>(),
                 new ArrayList<String>(), API.VisibilityEnum.PUBLIC, hostname, port);
 
     }
