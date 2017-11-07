@@ -73,8 +73,7 @@ public class CreateSampleOneRawData {
         ArrayList<String> apiFiveTags = new ArrayList<String>();
         apiFiveTags.add("price");
         SampleUtils.createApi("Phone_prices_API", "1.0.0", "/mobilePrices", new ArrayList<String>(),
-                new ArrayList<String>(), API.SubscriptionAvailabilityEnum.SPECIFIC_TENANTS, hostname, port,
-                apiFiveTags);
+                new ArrayList<String>(), API.SubscriptionAvailabilityEnum.ALL_TENANTS, hostname, port, apiFiveTags);
 
     }
 
