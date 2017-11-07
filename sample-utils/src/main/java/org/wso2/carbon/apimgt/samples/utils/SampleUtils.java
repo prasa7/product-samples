@@ -42,14 +42,15 @@ public class SampleUtils {
      * @param context
      * @param visibleRoles
      * @param visibleTenants
-     * @param apiVisibility
+     * @param subscriptionAvailabilityEnum
      * @param hostname
      * @param port
      * @return
      * @throws ApiException
      */
     public static String createApi(String apiName, String version, String context, ArrayList<String> visibleRoles,
-            ArrayList<String> visibleTenants, API.VisibilityEnum apiVisibility, String hostname, String port) throws ApiException {
+            ArrayList<String> visibleTenants, API.SubscriptionAvailabilityEnum subscriptionAvailabilityEnum,
+            String hostname, String port, ArrayList<String> tags) throws ApiException {
 
         APICollectionApi api = new APICollectionApi();
         API body = new API();
@@ -57,6 +58,7 @@ public class SampleUtils {
         body.setName(apiName);
         body.setContext(context);
         body.setVersion(version);
+        body.setVisibility(API.VisibilityEnum.PUBLIC);
         body.setDescription(Constants.API_DESCRIPTION);
         body.setProvider(Constants.PROVIDER_ADMIN);
         body.setTransport(new ArrayList<String>() {{
@@ -65,23 +67,23 @@ public class SampleUtils {
         body.isDefaultVersion(false);
         body.setCacheTimeout(100);
         body.setGatewayEnvironments(Constants.GATEWAY_ENVIRONMENTS);
-        body.setVisibility(apiVisibility);
-        body.setTags(new ArrayList<>());
+        body.setSubscriptionAvailability(subscriptionAvailabilityEnum);
         body.setVisibleRoles(visibleRoles);
-        body.setVisibleTenants(visibleTenants);
+        body.setSubscriptionAvailableTenants(visibleTenants);
         body.setSequences(new ArrayList<>());
         body.setBusinessInformation(new APIBusinessInformation());
         body.setCorsConfiguration(new APICorsConfiguration());
-        String endpointConfig = "{\"production_endpoints\":{\"url\":\"https://" + hostname + ":" + port +
-                "/am/sample/pizzashack/v1/api/\",\"config\":null},\"sandbox_endpoints\":" +
-                "{\"url\":\"https://localhost:9443/am/sample/pizzashack/v1/api/\",\"config\":null}," +
-                "\"endpoint_type\":\"http\"}";
+        body.setTags(tags);
+        String endpointConfig = "{\"production_endpoints\":{\"url\":\"https://" + hostname + ":" + port
+                + "/am/sample/pizzashack/v1/api/\",\"config\":null},\"sandbox_endpoints\":"
+                + "{\"url\":\"https://localhost:9443/am/sample/pizzashack/v1/api/\",\"config\":null},"
+                + "\"endpoint_type\":\"http\"}";
 
         body.setEndpointConfig(endpointConfig);
         try {
             body.setApiDefinition(getApiDefinition());
         } catch (IOException e) {
-            throw  new ApiException("Could not read API definition file");
+            throw new ApiException("Could not read API definition file");
         }
         List<String> tierList = new ArrayList<>();
         tierList.add(Constants.TIERS_UNLIMITED);

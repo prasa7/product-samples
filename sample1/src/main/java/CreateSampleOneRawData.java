@@ -43,29 +43,38 @@ public class CreateSampleOneRawData {
     private static void createAPIs() throws ApiException, IOException {
 
         ArrayList<String> apiOneVisibleTenants = new ArrayList<String>();
-        apiOneVisibleTenants.add("dpt.finance.com");
-        SampleUtils.createApi("Salary_details_API", "1.0.0", "/salaries", new ArrayList<String>(), apiOneVisibleTenants,
-                API.VisibilityEnum.CONTROLLED, hostname, port);
+        apiOneVisibleTenants.add("finance.abc.com");
+        ArrayList<String> apiOneTags = new ArrayList<String>();
+        apiOneTags.add("Finance");
+        SampleUtils.createApi("Salary_details_API", "1.0.0", "/salaries", new ArrayList<>(), apiOneVisibleTenants,
+                API.SubscriptionAvailabilityEnum.SPECIFIC_TENANTS, hostname, port, apiOneTags);
 
         ArrayList<String> apiTwoVisibleTenants = new ArrayList<String>();
-        apiOneVisibleTenants.add("dpt.core.com");
-        SampleUtils.createApi("Mobile_stock_API", "1.0.0", "/stocks", new ArrayList<String>(), apiTwoVisibleTenants,
-                API.VisibilityEnum.CONTROLLED, hostname, port);
+        apiOneVisibleTenants.add("core.abc.com");
+        ArrayList<String> apiTwoTags = new ArrayList<String>();
+        apiTwoTags.add("stock");
+        SampleUtils.createApi("Mobile_stock_API", "1.0.0", "/stocks", new ArrayList<>(), apiTwoVisibleTenants,
+                API.SubscriptionAvailabilityEnum.SPECIFIC_TENANTS, hostname, port, apiTwoTags);
 
         ArrayList<String> apiThreeVisibleTenants = new ArrayList<String>();
-        apiOneVisibleTenants.add("dpt.opt.com");
-        SampleUtils
-                .createApi("Maintenance_ask_API ", "1.0.0", "/tasks", new ArrayList<String>(), apiThreeVisibleTenants,
-                        API.VisibilityEnum.CONTROLLED, hostname, port);
+        apiOneVisibleTenants.add("operations.abc.com");
+        ArrayList<String> apiThreeTags = new ArrayList<String>();
+        apiThreeTags.add("maintenance");
+        SampleUtils.createApi("Maintenance_ask_API", "1.0.0", "/tasks", new ArrayList<>(), apiThreeVisibleTenants,
+                API.SubscriptionAvailabilityEnum.SPECIFIC_TENANTS, hostname, port, apiThreeTags);
 
         ArrayList<String> apiFourVisibleTenants = new ArrayList<String>();
-        apiOneVisibleTenants.add("dpt.finance.com");
-        apiOneVisibleTenants.add("dpt.core.com");
+        apiOneVisibleTenants.add("finance.abc.com");
+        apiOneVisibleTenants.add("core.abc.com");
+        ArrayList<String> apiFourTags = new ArrayList<String>();
+        apiFourTags.add("employee");
         SampleUtils.createApi("Employee_info_API", "1.0.0", "/empInfo", new ArrayList<String>(), apiFourVisibleTenants,
-                API.VisibilityEnum.CONTROLLED, hostname, port);
-
+                API.SubscriptionAvailabilityEnum.SPECIFIC_TENANTS, hostname, port, apiFourTags);
+        ArrayList<String> apiFiveTags = new ArrayList<String>();
+        apiFiveTags.add("price");
         SampleUtils.createApi("Phone_prices_API", "1.0.0", "/mobilePrices", new ArrayList<String>(),
-                new ArrayList<String>(), API.VisibilityEnum.PUBLIC, hostname, port);
+                new ArrayList<String>(), API.SubscriptionAvailabilityEnum.SPECIFIC_TENANTS, hostname, port,
+                apiFiveTags);
 
     }
 
@@ -73,8 +82,8 @@ public class CreateSampleOneRawData {
      *
      */
     private static void createTenants() {
-        TenantUtils.createTenant("john", "123123", "dpt.finance.com", " John", "Smith", serviceEndpoint);
-        TenantUtils.createTenant("tom", "123123", "dpt.core.com", " Tom", "Smith", serviceEndpoint);
-        TenantUtils.createTenant("bob", "123123", "dpt.opt.com", " Bob", "Len", serviceEndpoint);
+        TenantUtils.createTenant("john", "123123", "finance.abc.com", " John", "Smith", serviceEndpoint);
+        TenantUtils.createTenant("tom", "123123", "core.abc.com", " Tom", "Smith", serviceEndpoint);
+        TenantUtils.createTenant("bob", "123123", "operations.abc.com", " Bob", "Len", serviceEndpoint);
     }
 }

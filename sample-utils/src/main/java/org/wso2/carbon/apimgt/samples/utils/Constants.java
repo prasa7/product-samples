@@ -43,4 +43,5 @@ public class Constants {
     public static final String APPLICATION_JSON = "application/json";
     public static final String API_DEFINITION_JSON_FILE = "api-definition.json";
     public static final String TIERS_UNLIMITED = "Unlimited";
+    public static final String PUBLISHED = "PUBLISHED";
 }
