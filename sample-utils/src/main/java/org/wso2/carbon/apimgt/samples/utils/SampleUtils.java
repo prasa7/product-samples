@@ -30,24 +30,26 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- *
+ * This util class performs the actions related to API objects.
  */
 public class SampleUtils {
 
     private static String apiDefinition = null;
 
     /**
+     * This method is used to create an API.
      *
-     * @param apiName
-     * @param version
-     * @param context
-     * @param visibleRoles
-     * @param visibleTenants
-     * @param subscriptionAvailabilityEnum
-     * @param hostname
-     * @param port
-     * @return
-     * @throws ApiException
+     * @param apiName   API name.
+     * @param version   API version.
+     * @param context   API context.
+     * @param visibleRoles  visible roles of the API.
+     * @param visibleTenants    visible tenants of the API.
+     * @param subscriptionAvailabilityEnum  subscription visible tenants if the API.
+     * @param hostname  host name of the API Manager instance that needs to create the API.
+     * @param port  port of the API Manager instance that need to create the API.
+     * @param tags  tags that need to be added to the API.
+     * @return Id of the created API.
+     * @throws ApiException throws of an error occurred when creating the API.
      */
     public static String createApi(String apiName, String version, String context, ArrayList<String> visibleRoles,
             ArrayList<String> visibleTenants, API.SubscriptionAvailabilityEnum subscriptionAvailabilityEnum,
@@ -94,9 +96,10 @@ public class SampleUtils {
     }
 
     /**
+     * This method is used to get the API definition.
      *
-     * @return
-     * @throws IOException
+     * @return API definition.
+     * @throws IOException  throws if an error occurred when creating the API.
      */
     private static String getApiDefinition() throws IOException {
         if (apiDefinition == null) {
@@ -108,6 +111,12 @@ public class SampleUtils {
         return apiDefinition;
     }
 
+    /**
+     * This methos id used to publish the created API.
+     *
+     * @param apiId API id that need to published.
+     * @throws ApiException throws if an error occurred when publishing the API.
+     */
     public static void publishAPI(String apiId) throws ApiException {
         APIIndividualApi apiIndividualApi = new APIIndividualApi();
         apiIndividualApi.apisChangeLifecyclePost(Constants.PUBLISHED, apiId, null, null, null);

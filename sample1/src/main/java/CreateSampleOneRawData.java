@@ -24,7 +24,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- *
+ * This class is used to populate sample data to represent the sample one business scenario.
  */
 public class CreateSampleOneRawData {
 
@@ -32,12 +32,25 @@ public class CreateSampleOneRawData {
     private static final String port = "9443";
     private static final String serviceEndpoint = "https://" + hostname + ":" + port + "/services/";
 
+    /**
+     * This main method will be called when running sample one.
+     *
+     * @throws ApiException throws if an exception is thrown when API creation.
+     * @throws IOException  throws when if an error occurred when reading the api definition file.
+     */
     public static void main(String[] args) throws ApiException, IOException {
         createTenants();
         List<String> apiIds = createAPIs();
         publishAPIs(apiIds);
     }
 
+    /**
+     * This method is used to create API's
+     *
+     * @return A list of API Id's that was created.
+     * @throws ApiException throws if an exception is thrown when API creation.
+     * @throws IOException  throws when if an error occurred when reading the api definition file.
+     */
     private static List<String> createAPIs() throws ApiException, IOException {
 
         List<String> apiIds = new ArrayList<String>();
@@ -83,12 +96,21 @@ public class CreateSampleOneRawData {
 
     }
 
+    /**
+     * This method is used to create tenants
+     */
     private static void createTenants() {
         TenantUtils.createTenant("john", "123123", "finance.abc.com", " John", "Smith", serviceEndpoint);
         TenantUtils.createTenant("tom", "123123", "core.abc.com", " Tom", "Smith", serviceEndpoint);
         TenantUtils.createTenant("bob", "123123", "operations.abc.com", " Bob", "Len", serviceEndpoint);
     }
 
+    /**
+     * This method is used to publish created API's.
+     *
+     * @param apiIdList A list of API Id's
+     * @throws ApiException throws if an exception is thrown when publishing an API.
+     */
     private static void publishAPIs(List apiIdList) throws ApiException {
         for (Object apiId : apiIdList) {
             SampleUtils.publishAPI((String) apiId);
