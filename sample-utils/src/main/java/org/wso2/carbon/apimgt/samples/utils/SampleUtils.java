@@ -19,6 +19,7 @@ package org.wso2.carbon.apimgt.samples.utils;
 import org.apache.commons.io.IOUtils;
 import org.wso2.carbon.apimgt.samples.utils.publisher.rest.client.ApiException;
 import org.wso2.carbon.apimgt.samples.utils.publisher.rest.client.api.APICollectionApi;
+import org.wso2.carbon.apimgt.samples.utils.publisher.rest.client.api.APIIndividualApi;
 import org.wso2.carbon.apimgt.samples.utils.publisher.rest.client.model.API;
 import org.wso2.carbon.apimgt.samples.utils.publisher.rest.client.model.APIBusinessInformation;
 import org.wso2.carbon.apimgt.samples.utils.publisher.rest.client.model.APICorsConfiguration;
@@ -107,4 +108,8 @@ public class SampleUtils {
         return apiDefinition;
     }
 
+    public static void publishAPI(String apiId) throws ApiException {
+        APIIndividualApi apiIndividualApi = new APIIndividualApi();
+        apiIndividualApi.apisChangeLifecyclePost(Constants.PUBLISHED, apiId, null, null, null);
+    }
 }

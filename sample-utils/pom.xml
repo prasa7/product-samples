@@ -27,23 +27,22 @@
     <name>Sample Utils</name>
 
     <artifactId>org.wso2.carbon.apimgt.samples.utils</artifactId>
-    <!--<packaging>jar</packaging>-->
 
     <dependencies>
         <dependency>
             <groupId>org.wso2.carbon.apimgt</groupId>
             <artifactId>org.wso2.carbon.apimgt.clients.publisher.api</artifactId>
-            <version>1.0.0</version>
+            <version>${publisher.client.api.version}</version>
         </dependency>
         <dependency>
             <groupId>org.wso2.carbon.apimgt</groupId>
             <artifactId>org.wso2.carbon.apimgt.clients.store.api</artifactId>
-            <version>1.0.0</version>
+            <version>${store.client.api.version}</version>
         </dependency>
         <dependency>
             <groupId>org.wso2.carbon.apimgt</groupId>
             <artifactId>org.wso2.carbon.apimgt.clients.admin.api</artifactId>
-            <version>1.0.0</version>
+            <version>${admin.client.api.version}</version>
         </dependency>
         <dependency>
             <groupId>org.wso2.carbon.multitenancy</groupId>
@@ -58,26 +57,28 @@
         <dependency>
             <groupId>org.wso2.carbon</groupId>
             <artifactId>org.wso2.carbon.logging</artifactId>
-            <version>4.4.11</version>
+            <version>${carbon.logging.version}</version>
         </dependency>
         <dependency>
             <groupId>org.apache.axis2.wso2</groupId>
             <artifactId>axis2</artifactId>
             <version>1.6.1.wso2v20</version>
         </dependency>
-        <!-- https://mvnrepository.com/artifact/org.wso2.carbon/org.wso2.carbon.utils -->
         <dependency>
             <groupId>org.wso2.carbon</groupId>
             <artifactId>org.wso2.carbon.utils</artifactId>
-            <version>4.4.11</version>
+            <version>${carbon.utils.version}</version>
         </dependency>
 
     </dependencies>
 
     <properties>
-
-        <!-- Carbon Multitenancy version-->
         <carbon.multitenancy.version>4.6.0</carbon.multitenancy.version>
+        <publisher.client.api.version>1.0.0</publisher.client.api.version>
+        <store.client.api.version>1.0.0</store.client.api.version>
+        <admin.client.api.version>1.0.0</admin.client.api.version>
+        <carbon.logging.version>4.4.11</carbon.logging.version>
+        <carbon.utils.version>4.4.11</carbon.utils.version>
     </properties>
 
 </project>
