@@ -2,6 +2,9 @@ target/*
 sample-utils/target/*
 sample1/target/*
 clients/target/*
+clients/publisher/target/*
+clients/store/target/*
+clients/admin/target/*
 *.ipr
 *.iml
 *.iws

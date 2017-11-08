@@ -24,8 +24,8 @@ public class Constants {
     public static final String JAVAX_NET_SSL_TRUST_STORE = "javax.net.ssl.trustStore";
     public static final String JAVAX_NET_SSL_TRUST_STORE_PASSWORD = "javax.net.ssl.trustStorePassword";
     public static final String JAVAX_NET_SSL_TRUST_STORE_TYPE = "javax.net.ssl.trustStoreType";
-    public static final String WSO2CARBON_JKS = "wso2carbon.jks";
-    public static final String WSO_2_CARBON = "wso2carbon";
+    public static final String CLIENT_TRUSTORE_JKS = "client-truststore.jks";
+    public static final String WSO2_CARBON = "wso2carbon";
     public static final String JKS = "JKS";
     public static final String TENANT_MGT_ADMIN_SERVICE = "TenantMgtAdminService";
     public static final String ADMIN_USERNAME = "admin";

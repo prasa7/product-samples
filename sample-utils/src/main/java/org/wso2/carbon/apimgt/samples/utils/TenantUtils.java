@@ -18,6 +18,7 @@ package org.wso2.carbon.apimgt.samples.utils;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.wso2.carbon.apimgt.samples.utils.stubs.AuthenticateStub;
 import org.wso2.carbon.tenant.mgt.stub.TenantMgtAdminServiceExceptionException;
 import org.wso2.carbon.tenant.mgt.stub.TenantMgtAdminServiceStub;
 import org.wso2.carbon.tenant.mgt.stub.beans.xsd.TenantInfoBean;
@@ -48,16 +49,17 @@ public class TenantUtils {
             String firstName, String lastName, String backendUrl) {
 
         System.setProperty(Constants.JAVAX_NET_SSL_TRUST_STORE,
-                TenantUtils.class.getClassLoader().getResource(Constants.WSO2CARBON_JKS).getPath());
+                TenantUtils.class.getClassLoader().getResource(Constants.CLIENT_TRUSTORE_JKS).getPath());
 
-        System.setProperty(Constants.JAVAX_NET_SSL_TRUST_STORE_PASSWORD, Constants.WSO_2_CARBON);
+        System.setProperty(Constants.JAVAX_NET_SSL_TRUST_STORE_PASSWORD, Constants.WSO2_CARBON);
         System.setProperty(Constants.JAVAX_NET_SSL_TRUST_STORE_TYPE, Constants.JKS);
 
         boolean isSuccess = false;
         try {
             String endPoint = backendUrl + Constants.TENANT_MGT_ADMIN_SERVICE;
             TenantMgtAdminServiceStub tenantMgtAdminServiceStub = new TenantMgtAdminServiceStub(endPoint);
-            AuthenticateStub.authenticateStub(Constants.ADMIN_USERNAME, Constants.ADMIN_PASSWORD, tenantMgtAdminServiceStub);
+            AuthenticateStub
+                    .authenticateStub(Constants.ADMIN_USERNAME, Constants.ADMIN_PASSWORD, tenantMgtAdminServiceStub);
 
             Date date = new Date();
             Calendar calendar = new GregorianCalendar();
