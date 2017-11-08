@@ -32,10 +32,7 @@
         <module>sample-utils</module>
         <module>sample1</module>
     </modules>
-    <prerequisites>
-        <maven>2.2.0</maven>
-    </prerequisites>
-
+    
     <repositories>
         <repository>
             <id>wso2-nexus</id>
@@ -174,7 +171,7 @@
         <dependency>
             <groupId>com.fasterxml.jackson.datatype</groupId>
             <artifactId>jackson-datatype-joda</artifactId>
-            <version>2.1.5</version>
+            <version>${com.fasterxml.jackson.datatype.version}</version>
         </dependency>
         <dependency>
             <groupId>joda-time</groupId>
@@ -182,25 +179,19 @@
             <version>${jodatime-version}</version>
         </dependency>
         <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>${junit-version}</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
             <groupId>com.squareup.okhttp</groupId>
             <artifactId>okhttp</artifactId>
-            <version>2.7.5</version>
+            <version>${com.squareup.okhttp.version}</version>
         </dependency>
         <dependency>
             <groupId>com.squareup.okhttp</groupId>
             <artifactId>logging-interceptor</artifactId>
-            <version>2.7.5</version>
+            <version>${com.squareup.okhttp.version}</version>
         </dependency>
         <dependency>
             <groupId>com.google.code.gson</groupId>
             <artifactId>gson</artifactId>
-            <version>2.7</version>
+            <version>${com.google.code.gson.version}</version>
         </dependency>
     </dependencies>
     <properties>
@@ -209,7 +200,9 @@
         <jackson-version>2.4.2</jackson-version>
         <jodatime-version>2.3</jodatime-version>
         <maven-plugin-version>1.0.0</maven-plugin-version>
-        <junit-version>4.8.1</junit-version>
         <log4j.version>1.2.13</log4j.version>
+        <com.fasterxml.jackson.datatype.version>2.1.5</com.fasterxml.jackson.datatype.version>
+        <com.squareup.okhttp.version>2.7.5</com.squareup.okhttp.version>
+        <com.google.code.gson.version>2.7</com.google.code.gson.version>
     </properties>
 </project>
