@@ -15,8 +15,6 @@
  */
 
 import beans.RawDataBean;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.wso2.carbon.apimgt.samples.utils.SampleUtils;
 import org.wso2.carbon.apimgt.samples.utils.TenantUtils;
 import org.wso2.carbon.apimgt.samples.utils.beans.ApiBean;
