@@ -58,7 +58,7 @@ public class CreateSampleOneRawData {
         ArrayList<String> apiOneVisibleTenants = new ArrayList<>();
         apiOneVisibleTenants.add("finance.abc.com");
         ArrayList<String> apiOneTags = new ArrayList<>();
-        apiOneTags.add("Finance");
+        apiOneTags.add("finance");
         apiIds.add(SampleUtils
                 .createApi("Salary_details_API", "1.0.0", "/salaries", new ArrayList<>(), apiOneVisibleTenants,
                         API.SubscriptionAvailabilityEnum.SPECIFIC_TENANTS, hostname, port, apiOneTags));
