@@ -5,6 +5,7 @@ sample1/target/*
 sample2/target/*
 sample7/target/*
 sample8/target/*
+sample9/target/*
 clients/target/*
 clients/publisher/target/*
 clients/store/target/*

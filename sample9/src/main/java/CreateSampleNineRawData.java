@@ -59,6 +59,11 @@ public class CreateSampleNineRawData {
                         100000L, ThrottleLimit.TypeEnum.REQUESTCOUNTLIMIT, 0, null, tenantDomain, tenantAdminUsername,
                         tenantAdminPassword);
 
+
+        // Create advance throttle policies for super tenants.
+        ThrottlingUtils
+                .addAdvanceThrottlePolicy("5KPerMin", "5KPerMin", "Allows 5000 requests per minute", "min", 1, 100000L,
+                        ThrottleLimit.TypeEnum.REQUESTCOUNTLIMIT, 0, null);
         String apiIdOne = SampleUtils
                 .createApiForTenant("Salary_details_API", "1.0.0", "/t/" + tenantDomain + "/stocks",
                         API.VisibilityEnum.PUBLIC, new ArrayList<>(), new ArrayList<>(),
@@ -66,10 +71,6 @@ public class CreateSampleNineRawData {
                         tenantDomain, tenantAdminUsername, tenantAdminPassword);
 
         SampleUtils.publishAPI(apiIdOne, tenantDomain, tenantAdminUsername, tenantAdminPassword);
-        // Create advance throttle policies for super tenants.
-        ThrottlingUtils
-                .addAdvanceThrottlePolicy("5KPerMin", "5KPerMin", "Allows 5000 requests per minute", "min", 1, 100000L,
-                        ThrottleLimit.TypeEnum.REQUESTCOUNTLIMIT, 0, null);
 
         // Create advance throttle policies for super tenants.
         ThrottlingUtils

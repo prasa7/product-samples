@@ -20,6 +20,7 @@ echo "1 - Managing Public, Partner vs Private APIs"
 echo "2 - Ownership, permission and collaborative API development"
 echo "7 - API Lifecycle Management"
 echo "8 - API Versioning"
+echo "9 - API Governance"
 echo
 
 set -e
