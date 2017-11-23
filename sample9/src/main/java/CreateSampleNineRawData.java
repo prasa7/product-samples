@@ -17,9 +17,11 @@
 import org.wso2.carbon.apimgt.samples.utils.SampleUtils;
 import org.wso2.carbon.apimgt.samples.utils.TenantUtils;
 import org.wso2.carbon.apimgt.samples.utils.ThrottlingUtils;
+import org.wso2.carbon.apimgt.samples.utils.UserManagementUtils;
 import org.wso2.carbon.apimgt.samples.utils.admin.rest.client.model.ThrottleLimit;
 import org.wso2.carbon.apimgt.samples.utils.publisher.rest.client.ApiException;
 import org.wso2.carbon.apimgt.samples.utils.publisher.rest.client.model.API;
+import org.wso2.carbon.user.mgt.stub.UserAdminUserAdminException;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -41,27 +43,39 @@ public class CreateSampleNineRawData {
      */
     public static void main(String[] args)
             throws ApiException, IOException, org.wso2.carbon.apimgt.samples.utils.admin.rest.client.ApiException,
-            InterruptedException {
+            InterruptedException, UserAdminUserAdminException {
+
+        String tenantDomain = "finance.abc.com";
+        String tenantAdminUsername = "John";
+        String tenantAdminPassword = "123123";
 
         // Create a tenant
-        TenantUtils.createTenant("john", "123123", "finance.abc.com", " John", "Smith", serviceEndpoint);
+        TenantUtils.createTenant(tenantAdminUsername, tenantAdminPassword, tenantDomain, tenantAdminUsername, "Smith",
+                serviceEndpoint);
 
         // Create advance throttle policies for super tenants.
         ThrottlingUtils
-                .addAdvanceThrottlePolicyForTenants("5KPerMin", "5KPerMin", "Allows 100000 requests per minute",
-                        "min", 1, 100000L, ThrottleLimit.TypeEnum.REQUESTCOUNTLIMIT, 0, null, "finance.abc.com", "john",
-                        "123123");
+                .addAdvanceThrottlePolicyForTenants("5KPerMin", "5KPerMin", "Allows 5000 requests per minute", "min", 1,
+                        100000L, ThrottleLimit.TypeEnum.REQUESTCOUNTLIMIT, 0, null, tenantDomain, tenantAdminUsername,
+                        tenantAdminPassword);
 
-        String apiIdOne = SampleUtils.createApiForTenant("Salary_details_API", "1.0.0", "/t/finance.abc.com/stocks",
-                API.VisibilityEnum.PUBLIC, new ArrayList<>(), new ArrayList<>(),
-                API.SubscriptionAvailabilityEnum.CURRENT_TENANT, hostname, port, new ArrayList<>(), "finance.abc.com",
-                "john", "123123");
+        String apiIdOne = SampleUtils
+                .createApiForTenant("Salary_details_API", "1.0.0", "/t/" + tenantDomain + "/stocks",
+                        API.VisibilityEnum.PUBLIC, new ArrayList<>(), new ArrayList<>(),
+                        API.SubscriptionAvailabilityEnum.CURRENT_TENANT, hostname, port, new ArrayList<>(),
+                        tenantDomain, tenantAdminUsername, tenantAdminPassword);
 
-        SampleUtils.publishAPI(apiIdOne, "finance.abc.com", "john", "123123");
+        SampleUtils.publishAPI(apiIdOne, tenantDomain, tenantAdminUsername, tenantAdminPassword);
+        // Create advance throttle policies for super tenants.
+        ThrottlingUtils
+                .addAdvanceThrottlePolicy("5KPerMin", "5KPerMin", "Allows 5000 requests per minute", "min", 1, 100000L,
+                        ThrottleLimit.TypeEnum.REQUESTCOUNTLIMIT, 0, null);
+
         // Create advance throttle policies for super tenants.
         ThrottlingUtils
                 .addAdvanceThrottlePolicy("100KPerMin", "100KPerMin", "Allows 100000 requests per minute", "min", 1,
                         100000L, ThrottleLimit.TypeEnum.REQUESTCOUNTLIMIT, 0, null);
+
         ThrottlingUtils
                 .addAdvanceThrottlePolicy("100KKBPerMin", "100KKBPerMin", "Allows 100000 kilo bytes per minute", "min",
                         1, 0, ThrottleLimit.TypeEnum.BANDWIDTHLIMIT, 100000L, "KB");
@@ -71,6 +85,9 @@ public class CreateSampleNineRawData {
                         API.SubscriptionAvailabilityEnum.CURRENT_TENANT, hostname, port, new ArrayList<>());
         // Publish the API.
         SampleUtils.publishAPI(apiIdTwo);
+
+        UserManagementUtils
+                .addUser("tom", "123123", serviceEndpoint, new String[] { "Internal/subscriber" }, "admin", "admin");
 
     }
 

@@ -27,19 +27,19 @@ import org.wso2.carbon.apimgt.samples.utils.admin.rest.client.model.ThrottleLimi
 public class ThrottlingUtils {
 
     /**
-     * This method is used to add advanceThrottlingPolicies/
+     * This method is used to add advanceThrottlingPolicies
      *
-     * @param displayName
-     * @param policyName
-     * @param description
-     * @param timeUnit
-     * @param unitTime
-     * @param requestCount
-     * @param typeEnum
-     * @param dataAmount
-     * @param dataUnit
-     * @return
-     * @throws ApiException
+     * @param displayName   policy display name
+     * @param policyName    policy name
+     * @param description   policy description
+     * @param timeUnit      time unit
+     * @param unitTime      unit time
+     * @param requestCount  request count per unit time
+     * @param typeEnum      throttling type
+     * @param dataAmount    bandwidth amount
+     * @param dataUnit      bandwidth  unit
+     * @return created throttle policy Id.
+     * @throws ApiException Throws is an error occurs when creating a advance throttle policy.
      */
     public static String addAdvanceThrottlePolicy(String displayName, String policyName, String description,
             String timeUnit, Integer unitTime, long requestCount, ThrottleLimit.TypeEnum typeEnum, long dataAmount,
@@ -54,6 +54,24 @@ public class ThrottlingUtils {
         return result.getPolicyId();
     }
 
+    /**
+     * This method is used to add advanceThrottlingPolicies for tenants.
+     *
+     * @param displayName   policy display name
+     * @param policyName    policy name
+     * @param description   policy description
+     * @param timeUnit      time unit
+     * @param unitTime      unit time
+     * @param requestCount  request count per unit time
+     * @param typeEnum      throttling type
+     * @param dataAmount    bandwidth amount
+     * @param dataUnit      bandwidth  unit
+     * @param tenantDomain  tenant domain
+     * @param adminUsername tenant admin username
+     * @param adminPassword tenant admin password
+     * @return created throttle policy Id.
+     * @throws ApiException Throws is an error occurs when creating a advance throttle policy.
+     */
     public static String addAdvanceThrottlePolicyForTenants(String displayName, String policyName, String description,
             String timeUnit, Integer unitTime, long requestCount, ThrottleLimit.TypeEnum typeEnum, long dataAmount,
             String dataUnit, String tenantDomain, String adminUsername, String adminPassword) throws ApiException {
@@ -69,9 +87,9 @@ public class ThrottlingUtils {
         return result.getPolicyId();
     }
 
-    private static AdvancedThrottlePolicy createThrottlePolicyObject(String displayName, String policyName, String description,
-            String timeUnit, Integer unitTime, long requestCount, ThrottleLimit.TypeEnum typeEnum, long dataAmount,
-            String dataUnit) {
+    private static AdvancedThrottlePolicy createThrottlePolicyObject(String displayName, String policyName,
+            String description, String timeUnit, Integer unitTime, long requestCount, ThrottleLimit.TypeEnum typeEnum,
+            long dataAmount, String dataUnit) {
 
         AdvancedThrottlePolicy advancedThrottlePolicy = new AdvancedThrottlePolicy();
         advancedThrottlePolicy.displayName(displayName);
