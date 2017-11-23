@@ -35,6 +35,7 @@
         <module>sample7</module>
         <module>sample8</module>
         <module>backend</module>
+        <module>sample9</module>
     </modules>
     
     <repositories>
