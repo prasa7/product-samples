@@ -74,6 +74,11 @@
             <artifactId>org.wso2.carbon.user.mgt.stub</artifactId>
             <version>${carbon.identity.version}</version>
         </dependency>
+        <dependency>
+            <groupId>org.wso2.apache.httpcomponents</groupId>
+            <artifactId>httpclient</artifactId>
+            <version>${httpclient.version}</version>
+        </dependency>
 
     </dependencies>
 
@@ -85,6 +90,7 @@
         <carbon.logging.version>4.4.11</carbon.logging.version>
         <carbon.utils.version>4.4.11</carbon.utils.version>
         <carbon.identity.version>5.7.5</carbon.identity.version>
+        <httpclient.version>4.3.1.wso2v1</httpclient.version>
     </properties>
 
 </project>
