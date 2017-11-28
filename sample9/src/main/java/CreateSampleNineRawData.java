@@ -21,6 +21,7 @@ import org.wso2.carbon.apimgt.samples.utils.SampleUtils;
 import org.wso2.carbon.apimgt.samples.utils.TenantUtils;
 import org.wso2.carbon.apimgt.samples.utils.ThrottlingUtils;
 import org.wso2.carbon.apimgt.samples.utils.UserManagementUtils;
+import org.wso2.carbon.apimgt.samples.utils.WebAppDeployUtils;
 import org.wso2.carbon.apimgt.samples.utils.admin.rest.client.model.ThrottleLimit;
 import org.wso2.carbon.apimgt.samples.utils.publisher.rest.client.ApiException;
 import org.wso2.carbon.apimgt.samples.utils.publisher.rest.client.model.API;
@@ -45,6 +46,8 @@ public class CreateSampleNineRawData {
     private static final String gatewayHost = "localhost";
     private static final String serviceEndpoint = "https://" + hostname + ":" + port + "/services/";
     private static final String getGatewayEndpoint = "https://" + gatewayHost + ":" + gatewayPort;
+    private static final String warFileLocation = "../../sample-scenarios/resources/sample-data-backend.war";
+    private static final String warFileName = "sample-data-backend";
 
     /**
      * This main method will be called when running sample nine.
@@ -67,6 +70,8 @@ public class CreateSampleNineRawData {
         if (StringUtils.isEmpty(System.getProperty(Constants.JAVAX_NET_SSL_TRUST_STORE_TYPE))) {
             System.setProperty(Constants.JAVAX_NET_SSL_TRUST_STORE_TYPE, Constants.JKS);
         }
+
+        WebAppDeployUtils.deployWebApp(serviceEndpoint, "admin", "admin", warFileLocation, warFileName);
 
         String tenantDomain = "finance.abc.com";
         String tenantAdminUsername = "John";
