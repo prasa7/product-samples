@@ -25,6 +25,7 @@ import org.wso2.carbon.apimgt.samples.utils.publisher.rest.client.api.APIIndivid
 import org.wso2.carbon.apimgt.samples.utils.publisher.rest.client.model.API;
 import org.wso2.carbon.apimgt.samples.utils.publisher.rest.client.model.APIBusinessInformation;
 import org.wso2.carbon.apimgt.samples.utils.publisher.rest.client.model.APICorsConfiguration;
+import org.wso2.carbon.apimgt.samples.utils.publisher.rest.client.model.Sequence;
 import org.wso2.carbon.apimgt.samples.utils.store.rest.client.api.ApplicationIndividualApi;
 import org.wso2.carbon.apimgt.samples.utils.store.rest.client.api.SubscriptionIndividualApi;
 import org.wso2.carbon.apimgt.samples.utils.store.rest.client.model.Application;
@@ -79,7 +80,7 @@ public class SampleUtils {
         body.setSubscriptionAvailability(subscriptionAvailabilityEnum);
         body.setVisibleRoles(visibleRoles);
         body.setSubscriptionAvailableTenants(visibleTenants);
-        body.setSequences(new ArrayList<>());
+        body.setSequences(new ArrayList<Sequence>());
         body.setBusinessInformation(new APIBusinessInformation());
         body.setCorsConfiguration(new APICorsConfiguration());
         body.setTags(tags);
@@ -100,7 +101,16 @@ public class SampleUtils {
         List<String> tierList = new ArrayList<>();
         tierList.add(Constants.TIERS_UNLIMITED);
         body.setTiers(tierList);
-        API response = api.apisPost(body, Constants.APPLICATION_JSON);
+        API response;
+        try {
+            response = api.apisPost(body, Constants.APPLICATION_JSON);
+        } catch (ApiException e) {
+            if (e.getResponseBody().contains("already exists")) {
+
+                return null;
+            }
+            throw new ApiException(e);
+        }
         return response.getId();
     }
 
@@ -149,7 +159,7 @@ public class SampleUtils {
         body.setSubscriptionAvailability(subscriptionAvailabilityEnum);
         body.setVisibleRoles(visibleRoles);
         body.setSubscriptionAvailableTenants(visibleTenants);
-        body.setSequences(new ArrayList<>());
+        body.setSequences(new ArrayList<Sequence>());
         body.setBusinessInformation(new APIBusinessInformation());
         body.setCorsConfiguration(new APICorsConfiguration());
         body.setTags(tags);
@@ -173,7 +183,14 @@ public class SampleUtils {
         List<String> tierList = new ArrayList<>();
         tierList.add(Constants.TIERS_UNLIMITED);
         body.setTiers(tierList);
-        API response = api.apisPost(body, Constants.APPLICATION_JSON);
+
+        API response;
+        try {
+            response = api.apisPost(body, Constants.APPLICATION_JSON);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
         return response.getId();
     }
 
@@ -264,17 +281,20 @@ public class SampleUtils {
         apiIndividualApi.apisChangeLifecyclePost(Constants.PUBLISHED, apiId, null, null, null);
     }
 
-    public static String createApplication(String appName, String description, String throttleTier)
-            throws org.wso2.carbon.apimgt.samples.utils.store.rest.client.ApiException {
+    public static String createApplication(String appName, String description, String throttleTier) {
+        try {
+            Application application = new Application();
+            application.setName(appName);
+            application.setDescription(description);
+            application.setThrottlingTier(throttleTier);
 
-        Application application = new Application();
-        application.setName(appName);
-        application.setDescription(description);
-        application.setThrottlingTier(throttleTier);
-
-        ApplicationIndividualApi applicationIndividualApi = new ApplicationIndividualApi();
-        Application createdApp = applicationIndividualApi.applicationsPost(application, Constants.APPLICATION_JSON);
-        return createdApp.getApplicationId();
+            ApplicationIndividualApi applicationIndividualApi = new ApplicationIndividualApi();
+            Application createdApp = applicationIndividualApi.applicationsPost(application, Constants.APPLICATION_JSON);
+            return createdApp.getApplicationId();
+        } catch (org.wso2.carbon.apimgt.samples.utils.store.rest.client.ApiException e) {
+            // Ignoring the exception to facilitate running the same sample to a specific APIM instance multiple times.
+        }
+        return null;
     }
 
     public static String createSubscription(String apiId, String applicationId, String subscriptionTier,

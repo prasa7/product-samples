@@ -23,7 +23,7 @@ import java.rmi.RemoteException;
 import java.util.List;
 
 /**
- * THIs class consist of the functionalities related to war file deployments.a
+ * This class consist of the functionalities related to war file deployments.a
  */
 public class WebAppDeployUtils {
 

@@ -30,7 +30,9 @@ import org.wso2.carbon.apimgt.samples.utils.store.rest.client.model.ApplicationK
 import org.wso2.carbon.apimgt.samples.utils.store.rest.client.model.Subscription;
 import org.wso2.carbon.user.mgt.stub.UserAdminUserAdminException;
 
+import java.io.File;
 import java.io.IOException;
+import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -46,8 +48,12 @@ public class CreateSampleNineRawData {
     private static final String gatewayHost = "localhost";
     private static final String serviceEndpoint = "https://" + hostname + ":" + port + "/services/";
     private static final String getGatewayEndpoint = "https://" + gatewayHost + ":" + gatewayPort;
-    private static final String warFileLocation = "../../sample-scenarios/resources/sample-data-backend.war";
     private static final String warFileName = "sample-data-backend";
+    private static final String warFileLocation =
+            System.getProperty("user.dir") + File.separator + "resources" + File.separator + "sample-data-backend.war";
+    private static String clientTrustStore =
+            System.getProperty("user.dir") + File.separator + ".." + File.separator + "repository" + File.separator
+                    + "resources" + File.separator + "security" + File.separator + "client-truststore.jks";
 
     /**
      * This main method will be called when running sample nine.
@@ -61,8 +67,7 @@ public class CreateSampleNineRawData {
             org.wso2.carbon.apimgt.samples.utils.store.rest.client.ApiException {
 
         if (StringUtils.isEmpty(System.getProperty(Constants.JAVAX_NET_SSL_TRUST_STORE))) {
-            System.setProperty(Constants.JAVAX_NET_SSL_TRUST_STORE,
-                    UserManagementUtils.class.getClassLoader().getResource(Constants.CLIENT_TRUSTORE_JKS).getPath());
+            System.setProperty(Constants.JAVAX_NET_SSL_TRUST_STORE, clientTrustStore);
         }
         if (StringUtils.isEmpty(System.getProperty(Constants.JAVAX_NET_SSL_TRUST_STORE_PASSWORD))) {
             System.setProperty(Constants.JAVAX_NET_SSL_TRUST_STORE_PASSWORD, Constants.WSO2_CARBON);
@@ -71,6 +76,7 @@ public class CreateSampleNineRawData {
             System.setProperty(Constants.JAVAX_NET_SSL_TRUST_STORE_TYPE, Constants.JKS);
         }
 
+        System.out.println("Deploying sample back end");
         WebAppDeployUtils.deployWebApp(serviceEndpoint, "admin", "admin", warFileLocation, warFileName);
 
         String tenantDomain = "finance.abc.com";
@@ -78,49 +84,66 @@ public class CreateSampleNineRawData {
         String tenantAdminPassword = "123123";
 
         // Create a new user
-        UserManagementUtils
-                .addUser("tom", "123123", serviceEndpoint, new String[] { "Internal/subscriber" }, "admin", "admin");
+        try {
+            System.out.println("Creating user tom");
+            UserManagementUtils
+                    .addUser("tom", "123123", serviceEndpoint, new String[] { "Internal/subscriber" }, "admin",
+                            "admin");
+        } catch (UserAdminUserAdminException | RemoteException e) {
+            // This exception occurs when the user is previously created. Ignoring the exception to run the sample multiple times to the sam instance.
+        }
 
         // Create a tenant
+        System.out.println("Creating tenant finance.abc.com");
         TenantUtils.createTenant(tenantAdminUsername, tenantAdminPassword, tenantDomain, tenantAdminUsername, "Smith",
                 serviceEndpoint);
 
         // Create advance throttle policies for super tenants.
+        System.out.println("Creating advance policy 5KPerMin for finance.abc.com");
         ThrottlingUtils
                 .addAdvanceThrottlePolicyForTenants("5KPerMin", "5KPerMin", "Allows 5000 requests per minute", "min", 1,
                         100000L, ThrottleLimit.TypeEnum.REQUESTCOUNTLIMIT, 0, null, tenantDomain, tenantAdminUsername,
                         tenantAdminPassword);
 
         // Create advance throttle policies for super tenants.
+        System.out.println("Creating advance policy 5KPerMin for super tenant");
         ThrottlingUtils
                 .addAdvanceThrottlePolicy("5KPerMin", "5KPerMin", "Allows 5000 requests per minute", "min", 1, 100000L,
                         ThrottleLimit.TypeEnum.REQUESTCOUNTLIMIT, 0, null);
-        String apiIdOne = SampleUtils
-                .createApiForTenant("Salary_details_API", "1.0.0", "/t/" + tenantDomain + "/stocks",
-                        API.VisibilityEnum.PUBLIC, new ArrayList<>(), new ArrayList<>(),
-                        API.SubscriptionAvailabilityEnum.CURRENT_TENANT, hostname, port, new ArrayList<>(),
-                        tenantDomain, tenantAdminUsername, tenantAdminPassword);
-
-        SampleUtils.publishAPI(apiIdOne, tenantDomain, tenantAdminUsername, tenantAdminPassword);
 
         // Create advance throttle policies for super tenants.
+        System.out.println("Creating advance policy 100KPerMin for super tenant");
         ThrottlingUtils
                 .addAdvanceThrottlePolicy("100KPerMin", "100KPerMin", "Allows 100000 requests per minute", "min", 1,
                         100000L, ThrottleLimit.TypeEnum.REQUESTCOUNTLIMIT, 0, null);
 
+        System.out.println("Creating advance policy 100KKBPerMin for super tenant");
         ThrottlingUtils
                 .addAdvanceThrottlePolicy("100KKBPerMin", "100KKBPerMin", "Allows 100000 kilo bytes per minute", "min",
                         1, 0, ThrottleLimit.TypeEnum.BANDWIDTHLIMIT, 100000L, "KB");
+
+        System.out.println("Creating Salary_details_API API for finance.abc.com");
+        String apiIdOne = SampleUtils
+                .createApiForTenant("Salary_details_API", "1.0.0", "/t/" + tenantDomain + "/salaries",
+                        API.VisibilityEnum.PUBLIC, new ArrayList<String>(), new ArrayList<String>(),
+                        API.SubscriptionAvailabilityEnum.CURRENT_TENANT, hostname, port, new ArrayList<String>(),
+                        tenantDomain, tenantAdminUsername, tenantAdminPassword);
+        System.out.println("Publishing Salary_details_API API for finance.abc.com");
+        SampleUtils.publishAPI(apiIdOne, tenantDomain, tenantAdminUsername, tenantAdminPassword);
+
         // Create the API.
+        System.out.println("Creating Mobile_stock_API API for super tenant");
         String apiIdTwo = SampleUtils
-                .createApi("Mobile_stock_API", "1.0.0", "/stocks", new ArrayList<>(), new ArrayList<>(),
-                        API.SubscriptionAvailabilityEnum.CURRENT_TENANT, hostname, port, new ArrayList<>());
+                .createApi("Mobile_stock_API", "1.0.0", "/stocks", new ArrayList<String>(), new ArrayList<String>(),
+                        API.SubscriptionAvailabilityEnum.CURRENT_TENANT, hostname, port, new ArrayList<String>());
         // Publish the API.
+        System.out.println("Publishing Mobile_stock_API API for super tenant");
         SampleUtils.publishAPI(apiIdTwo);
         System.out.println("Waiting two seconds for API to be deployed to the gateway");
         Thread.sleep(2000);
 
         // Create Application
+        System.out.println("Creating Application One");
         String applicationIdOne = SampleUtils
                 .createApplication("Application_one", "This a new application created", "Unlimited");
 
@@ -137,43 +160,50 @@ public class CreateSampleNineRawData {
         allowedDomain.add("ALL");
 
         // Generate Keys for the application one
+        System.out.println("Generating keys for Application One");
         ApplicationKey applicationKey = SampleUtils
                 .generateKeys(applicationIdOne, "7200", null, ApplicationKeyGenerateRequest.KeyTypeEnum.PRODUCTION,
-                        new ArrayList<>(), allowedDomain, grantTypes);
+                        new ArrayList<String>(), allowedDomain, grantTypes);
         String accessToken = applicationKey.getToken().getAccessToken();
 
         // Create subscription for application one
+        System.out.println("Creating a subscription for keys for Application One");
         SampleUtils.createSubscription(apiIdTwo, applicationIdOne, "Unlimited", Subscription.StatusEnum.UNBLOCKED);
 
         Map<String, String> requestHeadersOne = new HashMap<>();
         requestHeadersOne.put("Authorization", "Bearer " + accessToken);
 
-        // Invoke the API for 20 times with applicationone
+        // Invoke the API for 20 times with application one
+        System.out.print("Invoking API using Application One to get analytics data");
         for (int i = 1; i <= 20; i++) {
             HTTPSClientUtils.doGet(getGatewayEndpoint + "/stocks/1.0.0/stock/1", requestHeadersOne);
-            System.out.println(i);
+            System.out.print(".");
         }
+        System.out.println("");
 
         // Create Application two
+        System.out.println("Creating a subscription for keys for Application Two");
         String applicationIdTwo = SampleUtils
                 .createApplication("Application_two", "This a new application created", "Unlimited");
 
         // Generate Keys for the application two
         ApplicationKey applicationKeyTwo = SampleUtils
                 .generateKeys(applicationIdTwo, "7200", null, ApplicationKeyGenerateRequest.KeyTypeEnum.PRODUCTION,
-                        new ArrayList<>(), allowedDomain, grantTypes);
+                        new ArrayList<String>(), allowedDomain, grantTypes);
         String accessTokenTwo = applicationKeyTwo.getToken().getAccessToken();
 
         // Create subscription for application one
+        System.out.println("Creating a subscription for keys for Application Two");
         SampleUtils.createSubscription(apiIdTwo, applicationIdTwo, "Unlimited", Subscription.StatusEnum.UNBLOCKED);
 
         Map<String, String> requestHeadersTwo = new HashMap<>();
-        requestHeadersOne.put("Authorization", "Bearer " + accessTokenTwo);
+        requestHeadersTwo.put("Authorization", "Bearer " + accessTokenTwo);
 
+        System.out.print("Invoking API using Application Two to get analytics data");
         // Invoke the API for 20 times with application Two
         for (int i = 1; i <= 20; i++) {
             HTTPSClientUtils.doGet(getGatewayEndpoint + "/stocks/1.0.0/stock/1", requestHeadersTwo);
-            System.out.println(i);
+            System.out.print(".");
         }
     }
 
